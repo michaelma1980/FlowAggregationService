@@ -179,7 +179,7 @@ template<
 
     if (req.method() == http::verb::get || req.method() == http::verb::head)
     {
-        string_view target = req.target();
+        beast::string_view target = req.target();
         static const string c_flowPath = "/flows?";
         if (target.size() < c_flowPath.size() || target.substr(0, c_flowPath.size()) != c_flowPath)
         {

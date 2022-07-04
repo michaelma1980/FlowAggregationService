@@ -44,6 +44,7 @@ void FlowCollector::AddFlow(std::shared_ptr<FlowAggregation::FlowRecordCollectio
 		lock_guard<mutex> guard(m_queueTailMutex);
 		m_flowQueue[m_tail] = flowRecords;
 		++m_tail;
+		m_tail = m_tail % c_maxQueueSize;
 		PostSemaphore(&m_countOfFlows);
 	}
 }
@@ -67,6 +68,7 @@ void FlowCollector::ProcessFlows()
 		{
 			lock_guard<mutex> guard(m_queueHeadMutex);
 			++m_head;
+			m_head = m_head % c_maxQueueSize;
 			if (m_isDraining)
 			{
 				if (m_head == m_tail)
