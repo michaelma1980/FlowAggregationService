@@ -1,9 +1,10 @@
-FlowAggregationService
+# FlowAggregationService
 
 This repo contains a sample service which can allow network flow aggregation.
 
-Build Instructions:
+# Build Instructions
 
+```
 cd
 sudo apt update
 sudo apt install libssl-dev gcc g++ cmake libboost1.74-tools-dev libboost-all-dev
@@ -15,20 +16,22 @@ cd ~/FlowAggregationService/boost/
 ./bootstrap.sh --prefix=`echo $HOME`/FlowAggregationService/out/boost
 b2 install
 cd ~/FlowAggregationService/
-git clone --recursive https://github.com/michaelma1980/FlowAggregationService.
+git clone --recursive https://github.com/michaelma1980/FlowAggregationService
 cd FlowAggregationService
 cmake .
 make
+```
 
-Run/Test Instructions:
+# Run/Test Instructions
 
+```
 FlowAggregationService/FlowAggregationService 127.0.0.1 8080 2 &
 curl -X POST "http://localhost:8080/flows" -H 'Content-Type: application/json' -d '[{"src_app": "john", "dest_app": "michael", "vpc_id": "vpc-0", "bytes_tx": 100, "bytes_rx": 500, "hour": 1}]'
 curl -X POST "http://localhost:8080/flows" -H 'Content-Type: application/json' -d '[{"src_app": "john", "dest_app": "michael", "vpc_id": "vpc-0", "bytes_tx": 100, "bytes_rx": 500, "hour": 1}]'
 curl http://localhost:8080/flows?hour=1
+```
 
-
-High Level Introduction:
+# High Level Introduction
 
 - used c++
 - used boost beast library to implement an http server
@@ -42,7 +45,7 @@ High Level Introduction:
   - pause the post request insertion and drain the request queue
   - resume the post request insertion after the get request is processed
 
-Future Work:
+# Future Work
 
 - The scaling limit and future improvements:
   - The scaling limit for flow request insertion is for acquiring the mutex protecting the tail pointer, which takes roughly 50 ns so QPS for insertion can achieve roughly 20,000 k/s. For flow stat retrieval the scaling limit is based on the read/write lock and the overhead of hash table lookup, so should be a much lower QPS. 
