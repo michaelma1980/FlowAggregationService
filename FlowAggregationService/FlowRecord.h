@@ -58,10 +58,6 @@ namespace FlowAggregation
 		std::string ToString() const;
 
 	private:
-
-		/*bool ParseStringValue(const Json::Value& root, const std::string& key, std::string& value);
-		bool ParseIntValue(const Json::Value& root, const std::string& key, int& value);*/
-	private:
 		boost::json::string m_srcApp;
 		boost::json::string m_destApp;
 		boost::json::string m_vpcId;
